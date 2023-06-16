@@ -261,14 +261,15 @@ def get_anomaly_walk(g):
     return walk
 
 
-def generate_samples(scenario_length,
-                     train_samples_count,
+def generate_samples(train_samples_count,
                      test_samples_count,
                      train_samples_anomaly_percent=0,
                      test_samples_anomaly_percent=0.3):
+    activities_count = 1
+
     examples = []
 
-    for j in range(scenario_length):
+    for j in range(activities_count):
         example = {}
         examples_tree = generate_examples_tree(12, 2, 4)
         example['tree'] = examples_tree
@@ -278,8 +279,8 @@ def generate_samples(scenario_length,
 
     time = datetime.now()
 
-    train = generate_train_samples(examples, scenario_length, time, train_samples_anomaly_percent, train_samples_count)
-    test = generate_test_samples(examples, scenario_length, test_samples_anomaly_percent, test_samples_count, time)
+    train = generate_train_samples(examples, activities_count, time, train_samples_anomaly_percent, train_samples_count)
+    test = generate_test_samples(examples, activities_count, test_samples_anomaly_percent, test_samples_count, time)
 
     return train, test
 
@@ -376,7 +377,7 @@ def transform_trace(tree, trace, user_id, start_time):
 
 
 def data_to_csv(data, filename):
-    context = "House"
+    context = "Programming"
     gen = pipeline('text-generation', model='EleutherAI/gpt-neo-125M')
 
     logs = []
